@@ -6,7 +6,7 @@
 /*   By: rosman <rosman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 21:39:31 by rosman            #+#    #+#             */
-/*   Updated: 2024/02/24 22:34:36 by rosman           ###   ########.fr       */
+/*   Updated: 2024/02/26 22:26:24 by rosman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,9 @@ typedef struct t_stack
 {
 	struct node	*top;
 }	t_stack;
+
+char	*ft_strdup(const char *s1);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	**ft_split(char const *s, char c);
 
 #endif
