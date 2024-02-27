@@ -6,7 +6,7 @@
 #    By: rosman <rosman@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/23 21:43:19 by rosman            #+#    #+#              #
-#    Updated: 2024/02/23 22:00:48 by rosman           ###   ########.fr        #
+#    Updated: 2024/02/27 20:56:05 by rosman           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,15 +18,8 @@ AR = ar -rcs
 RM = rm -f
 
 SRC =  push_swap.c \
-		# ft_atoi.c \
-		# ft_split \
-		# rotate \
-		# reverse_rotate \
-		# swap \
-		# push \
-		# utilles \
-		# sort_stack \
-		# radix\
+		split.c \
+		utils.c \
 
 OBJS = $(SRC:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: rosman <rosman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 21:27:32 by rosman            #+#    #+#             */
-/*   Updated: 2024/02/26 22:22:41 by rosman           ###   ########.fr       */
+/*   Updated: 2024/02/27 21:32:54 by rosman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,22 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	strjoin[i + j] = '\0';
 	return (free((char *)s1), strjoin);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*str;
+
+	if (!s)
+		return (NULL);
+	if (start >= ft_strlen(s))
+		return (ft_strdup(""));
+	if (len >= ft_strlen(s))
+		len = ft_strlen(s);
+	str = (char *)malloc(sizeof(*s) * (len + 1));
+	if (!str)
+		return (NULL);
+	str = ft_memcpy(str, s + start, len);
+	str[len] = 0;
+	return (str);
 }

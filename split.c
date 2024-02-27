@@ -6,7 +6,7 @@
 /*   By: rosman <rosman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 22:25:39 by rosman            #+#    #+#             */
-/*   Updated: 2024/02/26 22:26:09 by rosman           ###   ########.fr       */
+/*   Updated: 2024/02/27 21:38:57 by rosman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,31 @@ char	**ft_split(char const *s, char c)
 	}
 	substr[j] = NULL;
 	return (substr);
+}
+
+int	ft_atoi(char *str, char **args, int *flag)
+{
+	int			sign;
+	long long	res;
+
+	res = 0;
+	sign = 1;
+	while (*str == 32 || (*str >= 9 && *str <= 13))
+		str++;
+	if (*str == '-')
+		sign *= -1;
+	if (*str == '-' || *str == '+')
+		str++;
+	while (*str >= '0' && *str <= '9' )
+	{
+		res = res * 10 + *str - '0';
+		if (res > 2147483647 || res < -2147483648)
+		{
+			free_args(args, 1);
+			*flag = 1;
+			return (0);
+		}
+		str++;
+	}
+	return (res * sign);
 }

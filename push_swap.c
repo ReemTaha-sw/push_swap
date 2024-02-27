@@ -6,7 +6,7 @@
 /*   By: rosman <rosman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 21:53:38 by rosman            #+#    #+#             */
-/*   Updated: 2024/02/26 22:42:17 by rosman           ###   ########.fr       */
+/*   Updated: 2024/02/27 22:35:29 by rosman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ void	is_int(char **res)
 			else if (res[i][j] == '-' || res[i][j] == '+')
 			{
 				if (j > 0 || (res[i][j + 1] == '\0'))
-					cleanup(res, PRINT_ERROR);
+					cleanup(res, ERROR);
 				else
 					j++;
 			}
 			else
-				cleanup(res, PRINT_ERROR);
+				cleanup(res, ERROR);
 		}
 	}
 }
@@ -61,7 +61,7 @@ char	**return_numbers(char **arv)
 	}
 	result = ft_split(join, ' ');
 	if (result == NULL)
-		return (free(result), NULL);
+		return (free(join), NULL);
 	free(join);
 	is_int(result);
 	return (result);
@@ -69,7 +69,7 @@ char	**return_numbers(char **arv)
 
 void	cleanup(char **arv, int i)
 {
-	if (i == JUST_EXIT)
+	if (i == EXIT)
 	{
 		ft_printf("ERROR!\n");
 		exit(1);
@@ -124,7 +124,7 @@ void	check_arv(char **arv)
 	while (arv[i])
 	{
 		if (*arv[i] == '\0')
-			cleanup(arv, JUST_EXIT);
+			cleanup(arv, EXIT);
 		else
 		{
 			if (*arv)
@@ -132,13 +132,59 @@ void	check_arv(char **arv)
 				j = 0;
 				while (arv[i][j] == ' ')
 				{
-					if (arv[i][j] == '\0')
-						cleanup(arv, JUST_EXIT);
 					j++;
+					if (arv[i][j] == '\0')
+						cleanup(arv, EXIT);
 				}
 			}
 		}
 		i++;
+	}
+}
+
+void	put_stack(char **arv, t_stack *stack)
+{
+	int	index;
+	int	numbers;
+	int	flag;
+
+	index = 0;
+	flag = 0;
+	while (arv[index])
+		index++;
+	while (index > 0)
+	{
+		numbers = ft_atoi(arv[--index], arv, &flag);
+		if (flag == 1)
+		{
+			free_nodes(stack, FREE);
+			exit(1);
+		}
+		push_to_stack(stack, numbers);
+	}
+}
+
+void	is_duplcates(t_stack * stack_a)
+{
+	t_node	*curr;
+	t_node	*temp;
+
+	curr = stack_a->top;
+	if (!stack_a)
+		return ;
+	while (curr->next)
+	{
+		temp = curr->next;
+		while (temp)
+		{
+			if (curr->content == temp->content)
+			{
+				free_nodes(stack_a, ERROR);
+				exit(1);
+			}
+			temp = temp->next;
+		}
+		curr = curr->next;
 	}
 }
 
@@ -147,12 +193,18 @@ int    main(int arc, char **arv)
 	char	**numbers;
 	t_stack	stack_a;
 
+	numbers = NULL;//delete it later
 	start_stack(&stack_a);
-	if (arc > 2)
+	if (arc >= 2)
 	{
 		numbers = return_numbers(arv);
+		put_stack(arv, &stack_a);
+		free_arv(arv, FREE);
+		is_duplcates(&stack_a);
+		sort_stacks(&stack_a);
+		free_nodes(&stack_a, FREE);
 	}
-	ft_printf("hi , arc = %i and arv = %s", arc, arv[1]);
-	ft_printf("the number : %s", numbers);
+	// ft_printf("hi , arc = %i and arv = %s", arc, arv[1]);
+	// ft_printf("the number : %i", numbers);
 	return (0);
 }
