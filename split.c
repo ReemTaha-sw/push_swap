@@ -6,7 +6,7 @@
 /*   By: rosman <rosman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 22:25:39 by rosman            #+#    #+#             */
-/*   Updated: 2024/02/27 21:38:57 by rosman           ###   ########.fr       */
+/*   Updated: 2024/02/29 21:14:07 by rosman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ char	**ft_split(char const *s, char c)
 	char	**substr;
 	int		word_count;
 
-	if (s == NULL)
+	if (!s)
 		return (0);
 	word_count = strings_count(s, c);
 	substr = (char **)malloc(sizeof(char *) * (word_count + 1));
-	if (substr == NULL)
+	if (!substr)
 		return (NULL);
 	i = 0;
 	j = 0;
@@ -78,7 +78,7 @@ int	ft_atoi(char *str, char **args, int *flag)
 		res = res * 10 + *str - '0';
 		if (res > 2147483647 || res < -2147483648)
 		{
-			free_args(args, 1);
+			free_arv(args, 1);
 			*flag = 1;
 			return (0);
 		}

@@ -6,7 +6,7 @@
 /*   By: rosman <rosman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 21:53:38 by rosman            #+#    #+#             */
-/*   Updated: 2024/02/27 22:35:29 by rosman           ###   ########.fr       */
+/*   Updated: 2024/02/29 21:43:11 by rosman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	**return_numbers(char **arv)
 	i = 0;
 	check_arv(arv);
 	join = ft_strdup("");
-	if (join == NULL)
+	if (!join)
 		return (free(join), NULL);
 	while (arv[++i])
 	{
@@ -60,7 +60,7 @@ char	**return_numbers(char **arv)
 		join = ft_strjoin(join, " ");
 	}
 	result = ft_split(join, ' ');
-	if (result == NULL)
+	if (!result)
 		return (free(join), NULL);
 	free(join);
 	is_int(result);
@@ -84,13 +84,13 @@ void	free_arv(char **arv, int i)
 
 	counter = 0;
 	if (i == 1)
-		ft_printf("ERROR!\n");
+		write(2, "Error\n", 7);
 	if (arv)
 	{
-		while (arv[i])
+		while (arv[counter])
 		{
-			free(arv[i]);
-			i++;
+			free(arv[counter]);
+			counter++;
 		}
 		free(arv);
 	}
@@ -142,7 +142,20 @@ void	check_arv(char **arv)
 	}
 }
 
-void	put_stack(char **arv, t_stack *stack)
+void	push_to_stack(t_stack *stack, int content)
+{
+	t_node	*new_node;
+
+	new_node = (t_node *)malloc(sizeof(t_node));
+	if (!new_node)
+		free_nodes(stack, 0);
+	new_node->content = content;
+	new_node->next = stack->top;
+	stack->top = new_node;
+	new_node->index = -1;
+}
+
+void	put_to_stack(char **arv, t_stack *stack)
 {
 	int	index;
 	int	numbers;
@@ -193,18 +206,18 @@ int    main(int arc, char **arv)
 	char	**numbers;
 	t_stack	stack_a;
 
-	numbers = NULL;//delete it later
+	 // numbers = NULL;//delete it later
 	start_stack(&stack_a);
 	if (arc >= 2)
 	{
 		numbers = return_numbers(arv);
-		put_stack(arv, &stack_a);
-		free_arv(arv, FREE);
+		put_to_stack(arv, &stack_a);
+		free_arv(numbers, FREE);
 		is_duplcates(&stack_a);
 		sort_stacks(&stack_a);
 		free_nodes(&stack_a, FREE);
 	}
 	// ft_printf("hi , arc = %i and arv = %s", arc, arv[1]);
-	// ft_printf("the number : %i", numbers);
+	ft_printf("the number : %i", numbers);
 	return (0);
 }
